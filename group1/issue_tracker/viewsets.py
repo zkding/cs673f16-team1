@@ -28,33 +28,41 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = it_models.Issue.objects.all()
     serializer_class = serializers.CommentSerializer
 
-class IssueViewSetRO(viewsets.ReadOnlyModelViewSet):
-    """
-    Obtain a list of issues that meet a certain set of search criteria
-    """
-    queryset = it_models.Issue.objects.all()
-    serializer_class = serializers.IssueSerializer
-    filter_backends = (filters.SearchFilter,)
-    search_fields = (
-        'id',
-        'title',
-        'issue_type',
-        'status',
-        'priority',
-        'project',
-        'reporter',
-        'assignee',
-        'verifier'
-    )
+    #  a class like what's in tutorial
+class CommentList(generics.ListCreateAPIView):
+    queryset = it_models.IssueComment.objects.all()
+    serializer_class = serializers.CommentSerializer
 
-class IssueViewSetSingle(viewsets.ReadOnlyModelViewSet):
-    """
-    Obtain a single issue that matches the issue ID provided
-    """
-    queryset = it_models.Issue.objects.all()
-    serializer_class = serializers.IssueSerializer
+    def pre_save(self, obj):
+        obj.owner = self.request.user
 
-    def retrieve(self, request, pk=None):
-        """Return a single Issue"""
-        user = get_object_or_404(queryset, pk=pk)
-        return Response(serializer.data)
+# class IssueViewSetRO(viewsets.ReadOnlyModelViewSet):
+#     """
+#     Obtain a list of issues that meet a certain set of search criteria
+#     """
+#     queryset = it_models.Issue.objects.all()
+#     serializer_class = serializers.IssueSerializer
+#     filter_backends = (filters.SearchFilter,)
+#     search_fields = (
+#         'id',
+#         'title',
+#         'issue_type',
+#         'status',
+#         'priority',
+#         'project',
+#         'reporter',
+#         'assignee',
+#         'verifier'
+#     )
+
+# class IssueViewSetSingle(viewsets.ReadOnlyModelViewSet):
+#     """
+#     Obtain a single issue that matches the issue ID provided
+#     """
+#     queryset = it_models.Issue.objects.all()
+#     serializer_class = serializers.IssueSerializer
+
+#     def retrieve(self, request, pk=None):
+#         """Return a single Issue"""
+#         user = get_object_or_404(queryset, pk=pk)
+#         return Response(serializer.data)
