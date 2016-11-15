@@ -69,4 +69,7 @@ urlpatterns = patterns(
     url(r'^issue/search/$',
         login_required(it_views.SearchIssues.as_view()),
         name='search'),
+    url(r'^issue/comment/(?P<pk>\d+)/$',
+       login_required(it_viewsets.CommentList.as_view()),
+       name='create_comment'),
 )
