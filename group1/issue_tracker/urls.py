@@ -58,5 +58,5 @@ urlpatterns = patterns(
 
 )
 if settings.DEBUG:
-    urlpatterns += static(settings.ATTACHMENT_URL )
+    urlpatterns += static(settings.MEDIA_URL )
 
